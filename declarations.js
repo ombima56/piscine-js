@@ -7,7 +7,7 @@ const obj = {
     undef: undefined,
 }
 const nested = {
-    arr : [4,'2', undefined],
+    arr : [4, undefined, '2'],
     obj : {
         str: 'string',
         num : 9,
