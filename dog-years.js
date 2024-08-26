@@ -1,8 +1,8 @@
-function dogYears(plante, ageInseconds) {
-    const earthYearInseconds = 31557600
+function dogYears(planet, ageInseconds) {
+    const earthYearInseconds = 31557600;
 
     const orbitalPeriods = {
-        earth : 1.0,
+        earth: 1.0,
         mercury: 0.2408467,
         venus: 0.61519726,
         mars: 1.8808158,
@@ -12,8 +12,9 @@ function dogYears(plante, ageInseconds) {
         neptune: 164.79132,
     };
 
-    const ageInEarthYears = ageInseconds/earthYearInseconds
+    const ageInEarthYears = ageInseconds / earthYearInseconds;
 
-   const  ageOnPlanet = ageInEarthYears / orbitalPeriods[plante.toLowerCase()]
-   return parseFloat(ageInEarthYears.toFixed(2));
+    const ageOnPlanet = ageInEarthYears / orbitalPeriods[planet.toLowerCase()];
+    
+    return parseFloat(ageOnPlanet.toFixed(2));
 }
