@@ -1,4 +1,4 @@
 function id(arg){
-    const length = arguments.length;
-    return length;
+    arg = arguments.length;
+    return arg;
 }
