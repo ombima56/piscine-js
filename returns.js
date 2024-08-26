@@ -1,4 +1,7 @@
 function id(arg){
-    arg = arguments.length;
     return arg;
+}
+
+function getLength(arr) {
+   return arr.length;
 }
