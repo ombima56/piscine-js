@@ -7,3 +7,11 @@ function sign(n) {
         return 0;
     }
 }
+
+function sameSign(a, b) {
+    if (a === 0 || b === 0) {
+        return a === b;
+    } else {
+        return (a > 0 && b > 0) || (a < 0 && b < 0);
+    }
+}
