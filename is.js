@@ -1,8 +1,8 @@
-is.num = value => typeof value === 'number' && !isNaN(value);
-is.nan = value => typeof value === 'number' && isNaN(value);
+is.num = value => typeof value === 'number' && !Object.is(value, NaN);
+is.nan = value => Object.is(value, NaN);
 is.str = value => typeof value === 'string';
 is.bool = value => typeof value === 'boolean';
-is.undef = value => typeof value === 'undefined';
+is.undef =value => typeof value === 'undefined';
 is.def = value => typeof value !== 'undefined';
 is.arr = value => Array.isArray(value);
 is.obj = value => value !== null && typeof value === 'object' && !Array.isArray(value);
