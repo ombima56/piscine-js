@@ -1,7 +1,9 @@
 function reverse(arr) {
-    if (!Array.isArray(arr)) {
-        throw new Error("Input must be an array");
+    if (typeof input !== 'string' && !Array.isArray(input)) {
+        throw new TypeError('Input must be an array or a string.'); // Handle unexpected input types
     }
+
+    const arr = typeof input === 'string' ? input.split('') : input;
 
     let start = 0;
     let end = arr.length - 1;
@@ -13,5 +15,5 @@ function reverse(arr) {
         start++;
         end--;
     }
-    return arr;
+    return typeof input === 'string' ? arr.join('') : arr;
 }
