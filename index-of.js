@@ -7,8 +7,8 @@ function indexOf(arr, char, start = 0) {
     return -1;
 }
 
-function lastIndexOf(arr, char) {
-    for( let i = arr.length - 1; i >= 0; i--) {
+function lastIndexOf(arr, char, start = arr.length - 1) {
+    for( let i = start; i >= 0; i--) {
         if (arr[i] === char) {
             return i;
         }
