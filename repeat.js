@@ -1,3 +1,7 @@
 function repeat(s, n) {
-    return s.repeat(n);
+    if (n === 0) {
+        return ""
+    }
+    
+    return s + repeat(s,n-1);
 }
