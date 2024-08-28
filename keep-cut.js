@@ -53,6 +53,10 @@ function keepLast(str) {
 function keepFirstLast(str){
     let result = '';
     let length = str.length;
+    
+    if (length <= 4) {
+        return str;
+    }
 
     for (let i = 0; i < length; i++) {
         if (i < 2) {
