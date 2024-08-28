@@ -16,9 +16,16 @@ function cutLast(str) {
 
 function cutFirstLast(str) {
     let result = "";
-    for (i = 2; i < str.length-2;i++) {
-        result += str[i];
+    let length = str.length;
+
+    if (length <= 4) {
+        return "";
     }
+
+    for (let i = 2; i < length - 2; i++) {
+        result += str[i]; 
+    }
+
     return result;
 }
 
