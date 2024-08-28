@@ -39,6 +39,11 @@ function keepFirst(str) {
 
 function keepLast(str) {
     let result = '';
+
+    if (str.length <= 2) {
+        return str;
+    }
+    
     for (let i = str.length-2; i < str.length; i++) {
         result += str[i];
     }
