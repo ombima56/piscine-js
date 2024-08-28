@@ -1,5 +1,9 @@
 function getIntegerPart(num) {
-    return num >= 0 ? ~~num : -~~(-num);
+    let result = 0;
+    while (Math.abs(result) <= Math.abs(num)) {
+        result += num > 0 ? 1 : -1;
+    }
+    return result - (num > 0 ? 1 : -1);
 }
 
 function round(num) {
