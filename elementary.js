@@ -1,9 +1,17 @@
 function multiply(a, b) {
     let mult = 0;
+    let isNegative = false;
+
+    // Handle negative cases
+    if (b < 0) {
+        b = -b;
+        isNegative = true;
+    }
+
     for (let i = 0; i < b; i++) {
         mult += a;
     }
-    return mult;
+    return isNegative ? -mult : mult;
 }
 
 function divide(a, b) {
