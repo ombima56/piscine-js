@@ -9,5 +9,10 @@ function get(src, path){
             return undefined;
         }
     }
+
+    if (typeof current === 'function') {
+        return current();
+    }
+    
     return current;
 }
