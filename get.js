@@ -1,18 +1,9 @@
-const t = {
-    toString: function() {
-        return 'Hello World';
-    }
-};
-
 function get(src, path) {
     if (path === '') return src;
-
     const keys = path.split('.');
     let current = src;
-
     for (const key of keys) {
         if (current == null) return undefined;
-
         if (Array.isArray(current)) {
             const index = parseInt(key, 10);
             if (isNaN(index) || index < 0 || index >= current.length) return undefined;
@@ -24,5 +15,5 @@ function get(src, path) {
             return undefined;
         }
     }
-    return typeof current === 'function' ? current() : current;
+    return typeof current === 'function' ? current.call(src) : current;
 }
