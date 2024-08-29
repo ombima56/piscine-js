@@ -1,19 +1,19 @@
-function get(src, path) {
-    if (path === '') return src;
-    const keys = path.split('.');
+function get(src, path){
+    const keys = path.split('.')
     let current = src;
-    for (const key of keys) {
-        if (current == null) return undefined;
-        if (Array.isArray(current)) {
-            const index = parseInt(key, 10);
-            if (isNaN(index) || index < 0 || index >= current.length) return undefined;
-            current = current[index];
-        } else if (typeof current === 'object') {
-            if (!Object.prototype.hasOwnProperty.call(current, key)) return undefined;
-            current = current[key];
+
+    for (let key of keys) {
+        if (current.hasOwnProperty(key)){
+            if (Array.isArray(current) && !isNaN(key) && Number.isInteger(Number(key))) {
+                current = current[parseInt(key,10)]
+            } else {
+                current = current[key];
+            }
+            
         } else {
             return undefined;
         }
     }
-    return typeof current === 'function' ? current.call(src) : current;
+
+    return current;
 }
