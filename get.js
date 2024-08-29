@@ -1,18 +1,22 @@
-function get(src, path){
-    const keys = path.split('.')
+function get(src, path) {
+    if (path === '') return src;
+    
+    const keys = path.split('.');
     let current = src;
 
-    for (let i of keys) {
-        if (current.hasOwnProperty(i)){
-            current = current[i];
-        }else {
+    for (const key of keys) {
+        if (current == null) return undefined;
+        
+        if (Array.isArray(current)) {
+            const index = parseInt(key, 10);
+            if (isNaN(index)) return undefined;
+            current = current[index];
+        } else if (typeof current === 'object') {
+            current = current[key];
+        } else {
             return undefined;
         }
     }
 
-    if (typeof current === 'function') {
-        return current();
-    }
-    
-    return current;
+    return typeof current === 'function' ? current() : current;
 }
