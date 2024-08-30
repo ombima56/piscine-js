@@ -6,7 +6,7 @@ function pyramid(str, n) {
         const currentWidth = i * 2 - 1;
         const padding = (maxWidth - currentWidth) / 2;
         
-        for (let j = 0; j < padding; j++) {
+        for (let j = 0; j < padding*str.length; j++) {
             line += ' ';
         }
         
@@ -25,4 +25,4 @@ function pyramid(str, n) {
     return pattern;
 }
 
-// console.log(pyramid('*', 5));
+console.log(pyramid('{}', 5));
