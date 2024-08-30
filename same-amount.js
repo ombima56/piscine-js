@@ -1,6 +1,6 @@
 function sameAmount(str, regexp1, regexp2) {
-    const matches1 = str.match(regexp1) || [];
-    const matches2 = str.match(regexp2) || [];
+    const matches1 = str.match(new RegExp(regexp1.source, 'g')) || [];
+    const matches2 = str.match(new RegExp(regexp2.source, 'g')) || [];
 
     return matches1.length === matches2.length;
 }
