@@ -25,4 +25,4 @@ function pyramid(str, n) {
     return pattern;
 }
 
-console.log(pyramid('*', 5));
+// console.log(pyramid('*', 5));
