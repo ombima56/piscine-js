@@ -7,6 +7,6 @@ function findIP(arr) {
     return matches;
 }
 
-const dataSet = "Here are some IPs: 192.168.1.1, 10.0.0.1:80, and 256.100.50.0. Check this IP: 123.45.67.89:65535 and this one: 192.168.0.0:99999";
-const validIPs = findIP(dataSet);
-console.log(validIPs);
+// const dataSet = "Here are some IPs: 192.168.1.1, 10.0.0.1:80, and 256.100.50.0. Check this IP: 123.45.67.89:65535 and this one: 192.168.0.0:99999";
+// const validIPs = findIP(dataSet);
+// console.log(validIPs);
