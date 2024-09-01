@@ -9,10 +9,16 @@ function greedyQuery(dataSet) {
 }
 
 function notSoGreedy(dataSet) {
-    const pattern = /https?:\/\/[^\s?]+\?([^&\s]+=[^&\s]*)(?:&[^&\s]+=[^&\s]*){1,2}(?!&\S)/g;
-    const matches = dataSet.match(pattern) || [];
-    return matches.filter(url => {
-        const params = url.split('?')[1].split('&');
+    const urls = getURL(dataSet);
+
+    return urls.filter(url => {
+        const queryStart = url.indexOf('?');
+        if (queryStart === -1) return false; // No query parameters, exclude this URL
+
+        const queryString = url.substring(queryStart + 1);
+        const params = queryString.split('&');
+
+        // Ensure there are 2 to 3 query parameters
         return params.length >= 2 && params.length <= 3;
     });
 }
