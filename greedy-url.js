@@ -9,13 +9,14 @@ function greedyQuery(dataSet) {
 }
 
 function notSoGreedy(dataSet) {
-    const pattern = /https?:\/\/[^\s?]+\?[^&\s]+=([^&\s]+)(?:&[^&\s]+=([^&\s]+)){1,2}(?!&\S)/g;
+    const pattern = /https?:\/\/[^\s?]+\?([^&\s]+=[^&\s]*)(?:&[^&\s]+=[^&\s]*){1,2}(?!&\S)/g;
     const matches = dataSet.match(pattern) || [];
     return matches.filter(url => {
         const params = url.split('?')[1].split('&');
         return params.length >= 2 && params.length <= 3;
     });
 }
+
 
 // const dataSet = `
 // qqq http:// qqqq q qqqqq https://something.com/hello qqqqqqq qhttp://example.com/hello?you=something&something=you
