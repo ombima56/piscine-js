@@ -9,8 +9,12 @@ function greedyQuery(dataSet) {
 }
 
 function notSoGreedy(dataSet) {
-    const pattern = /https?:\/\/[^\s?]+\?[^&\s]+(?:&[^&\s]+){1,2}(?!&)/g;
-    return dataSet.match(pattern) || [];
+    const pattern = /https?:\/\/[^\s?]+\?[^&\s]+=([^&\s]+)(?:&[^&\s]+=([^&\s]+)){1,2}(?!&\S)/g;
+    const matches = dataSet.match(pattern) || [];
+    return matches.filter(url => {
+        const params = url.split('?')[1].split('&');
+        return params.length >= 2 && params.length <= 3;
+    });
 }
 
 // const dataSet = `
