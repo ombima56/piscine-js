@@ -1,6 +1,7 @@
 function isValid(dateTime) {
     const date = new Date(dateTime);
-    return !isNaN(date.getTime());
+    // Check if the date is valid by ensuring it is not 'Invalid Date'
+    return date instanceof Date && !isNaN(date.getTime());
 }
 
 function isAfter(date1, date2) {
