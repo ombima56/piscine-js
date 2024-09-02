@@ -1,16 +1,32 @@
 function isValid(dateTime) {
-    // Check if the input is a Date object
+    // Helper function to check if a year is a leap year
+    const isLeapYear = (year) => year % 400 === 0 || (year % 100 !== 0 && year % 4 === 0);
+
+    // Helper function to validate date parts
+    const isValidDateParts = (year, month, day) => {
+        const monthLengths = [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        return month > 0 && month <= 12 && day > 0 && day <= monthLengths[month - 1];
+    };
+
+    // Check if input is a Date object
     if (dateTime instanceof Date) {
         return !isNaN(dateTime.getTime());
     }
-    
-    // Check if the input is a string
+
+    // Check if input is a string
     if (typeof dateTime === 'string') {
-        const date = new Date(dateTime);
-        return !isNaN(date.getTime());
+        const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (!dateFormatRegex.test(dateTime)) {
+            return false;
+        }
+
+        const [year, month, day] = dateTime.split('-').map(Number);
+
+        // Validate year range and date parts
+        return year >= 1000 && year <= 3000 && isValidDateParts(year, month, day);
     }
-    
-    // If the input is neither a Date object nor a string, return false
     return false;
 }
 
