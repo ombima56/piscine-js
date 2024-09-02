@@ -1,7 +1,13 @@
 function isValid(dateTime) {
+    // Regular expression to match the format YYYY-MM-DD
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (regex.test(dateTime)) {
+        return false;
+    }
+    
     const date = new Date(dateTime);
-    // Check if the date is valid by ensuring it is not 'Invalid Date'
-    return date instanceof Date && !isNaN(date.getTime());
+    // Check if the date is valid
+    return !isNaN(date.getTime()) && date.toISOString().slice(0, 10) === dateTime;
 }
 
 function isAfter(date1, date2) {
@@ -50,6 +56,7 @@ function isPast(dateTime) {
 
 
 console.log(isValid(new Date('2024-09-02')));
+console.log(isValid('2013-01-01'));
 console.log(isValid(new Date('Invalid Date String')));
 
 const date1 = new Date('2024-09-03T15:30:00');
