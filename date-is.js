@@ -45,22 +45,23 @@ function isValid(dateTime) {
     return false;
 }
 
-  
 function isAfter(date1, date2) {
+    // Check if both dates are valid
     if (!isValid(date1) || !isValid(date2)) {
-        throw new Error('Both arguments must be valid dates.');
+        return false;
     }
     return new Date(date1).getTime() > new Date(date2).getTime();
 }
   
 function isBefore(date1, date2) {
+    // First, check if both arguments are valid dates
     if (!isValid(date1) || !isValid(date2)) {
-      throw new Error('Both arguments must be valid dates.');
+        return false;
     }
     return new Date(date1).getTime() < new Date(date2).getTime();
-  }
+}
   
-  function isFuture(dateTime) {
+function isFuture(dateTime) {
     if (!isValid(dateTime)) {
       return false;
     }
