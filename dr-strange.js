@@ -21,8 +21,8 @@ function timeTravel({ date, hour, minute, second }) {
     if (minute !== undefined) newDate.setUTCMinutes(minute);
     if (second !== undefined) newDate.setUTCSeconds(second);
 
-    // Format the date string using a utility function
-    return formatDateToGMT(newDate);
+    // Return the new Date object directly
+    return newDate; // This change ensures we return a Date object
 }
 
 // Utility function to format date to GMT string
@@ -55,4 +55,4 @@ const modifiedDate = timeTravel({
     minute: 22,
     second: 22,
 });
-console.log(modifiedDate);
+console.log(formatDateToGMT(modifiedDate));
