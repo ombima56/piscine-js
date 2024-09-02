@@ -48,7 +48,7 @@ function isValid(dateTime) {
   
 function isAfter(date1, date2) {
     if (!isValid(date1) || !isValid(date2)) {
-      throw new Error('Both arguments must be valid dates.');
+        throw new Error('Both arguments must be valid dates.');
     }
     return new Date(date1).getTime() > new Date(date2).getTime();
 }
