@@ -8,11 +8,10 @@ function firstDayWeek(week, year) {
     // Create a Date object for January 1st of the given year
     const firstJan = new Date(year, 0, 1);
 
-    // Calculate the day of the week for January 1st
+    // Calculate the day of the week for January 1st (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
     const dayOfWeek = firstJan.getUTCDay();
 
-    // Calculate the offset to the first Monday of the year
-    let dayOffset = (dayOfWeek <= 1) ? (1 - dayOfWeek) : (8 - dayOfWeek); // Adjust so that Monday is 1
+    let dayOffset = (dayOfWeek === 0) ? 1 : (1 - dayOfWeek + 7) % 7;
 
     // Calculate the date of the Monday of the desired week
     const desiredDate = new Date(Date.UTC(year, 0, 1 + dayOffset + (week - 1) * 7));
@@ -22,6 +21,7 @@ function firstDayWeek(week, year) {
     const month = String(desiredDate.getUTCMonth() + 1).padStart(2, '0');
     return `${day}-${month}-${String(year).padStart(4, '0')}`;
 }
+
 
 console.log(firstDayWeek(2, '0001'))
 console.log(firstDayWeek(1, '2023')); 
