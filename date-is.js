@@ -1,13 +1,17 @@
 function isValid(dateTime) {
-    // Regular expression to match the format YYYY-MM-DD
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    if (regex.test(dateTime)) {
-        return false;
+    // Check if the input is a Date object
+    if (dateTime instanceof Date) {
+        return !isNaN(dateTime.getTime());
     }
     
-    const date = new Date(dateTime);
-    // Check if the date is valid
-    return !isNaN(date.getTime()) && date.toISOString().slice(0, 10) === dateTime;
+    // Check if the input is a string
+    if (typeof dateTime === 'string') {
+        const date = new Date(dateTime);
+        return !isNaN(date.getTime());
+    }
+    
+    // If the input is neither a Date object nor a string, return false
+    return false;
 }
 
 function isAfter(date1, date2) {
