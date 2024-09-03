@@ -1,23 +1,19 @@
 function countLeapYears(date) {
     const year = date.getFullYear();
+  
+    // Helper function to check if a year is a leap year
+    const isLeapYear = (year) => {
+        return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
+    };
+      
     let leapYearCount = 0;
-
-    // Loop through each year from 1 to the year of the provided date
-    for (let i = 1; i <= year; i++) {
-        // Check if the current year is a leap year
-        if ((i % 4 === 0 && i % 100 !== 0) || (i % 400 === 0)) {
-            leapYearCount++;
-        }
+  
+    // Iterate through years from 1 to the given year
+    for (let i = 1; i < year; i++) {
+      if (isLeapYear(i)) {
+        leapYearCount++;
+      }
     }
-
-    // Check if the date is before or on February 28 of the current year
-    const isBeforeLeapDay = date.getMonth() < 2 || (date.getMonth() === 1 && date.getDate() < 29);
-    
-    // If the current year is a leap year and the date is before February 29, subtract 1
-    if (isBeforeLeapDay && (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0))) {
-        leapYearCount--;
-    }
-
     return leapYearCount;
 }
 
