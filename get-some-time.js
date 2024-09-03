@@ -1,30 +1,34 @@
 function firstDayWeek(week, year) {
-    if (week < 1 || week > 53 || isNaN(parseInt(year))) {
-      throw new Error('Invalid input');
-    }
-  
-    year = parseInt(year, 10);
-    
-    // For week 1, always return January 1st
+    let time = new Date(year);
     if (week === 1) {
-      return `01-01-${String(year).padStart(4, '0')}`;
+        time.setHours(24);
+        return formattedDate(time);
     }
     
-    // Calculate the date for the start of the specified week
-    const firstDay = new Date(Date.UTC(year, 0, 1 + (week - 1) * 7));
+    let dayPlus = week * 7 * 24;
+    time.setHours(dayPlus - 123);
     
-    // If the calculated date is in the previous year, return January 1st
-    if (firstDay.getUTCFullYear() < year) {
-      return `01-01-${String(year).padStart(4, '0')}`;
+    for (let i = 0; i < 7; i++) {
+        if (getWeekDay(time) === 'Monday') {
+            return formattedDate(time);
+        }
+        time.setHours(-24);
     }
-    
-    // Format the date as dd-mm-yyyy
-    const day = String(firstDay.getUTCDate()).padStart(2, '0');
-    const month = String(firstDay.getUTCMonth() + 1).padStart(2, '0');
-    return `${day}-${month}-${String(year).padStart(4, '0')}`;
+    return time;
 }
 
-// Test cases
+function getWeekDay(date) {
+    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return days[date.getDay() - 1];
+}
+
+function formattedDate(d) {
+    let month = String(d.getMonth() + 1).padStart(2, '0');
+    let day = String(d.getDate() - 1).padStart(2, '0');
+    let year = String(d.getFullYear()).padStart(4, '0');
+    return `${day}-${month}-${year}`;
+}
+
 console.log(firstDayWeek(2, '0001'));
 console.log(firstDayWeek(1, '2023'));
 console.log(firstDayWeek(52, '2023'));
