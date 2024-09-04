@@ -34,10 +34,10 @@ const reduceRight = (arr, func) => {
     return acc;
 }
 
-const adder = (a, b) => a + b
-const result = reduceRight([1, 2, 3], adder)
+// const adder = (a, b) => a + b
+// const result = reduceRight([1, 2, 3], adder)
 // const result2 = foldRight([1, 2, 3], adder, 2)
 // const array = [15, 16, 17, 18, 19];
 // const result = fold(array, adder, 10)
 // console.log(result)
-console.log(result);
+// console.log(result);
