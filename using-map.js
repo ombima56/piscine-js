@@ -36,17 +36,26 @@ const trimmedTemperatures = trimTemp([
     { city: 'San Francisco', temperature: ' 84 ° F   ' }
 ]);
 
-function fahrenheitToCelsius(temp) {
-    const fahrenheit = parseInt(temp);
-    const celsius = Math.floor((fahrenheit - 32) * 5 / 9);
-    return `${celsius}°C`;
+function fahrenheitToCelsius(arr) {
+    return arr.map(temp => {
+        const fahrenheit = parseInt(temp); // Ensure it's an integer
+        const celsius = Math.floor((fahrenheit - 32) * 5 / 9); // Convert to Celsius
+        return `${celsius}°C`; // Return as string with °C suffix
+    });
 }
 
 function tempForecasts(arr) {
     return arr.map(obj => {
-        const fahrenheit = parseFloat(obj.temperature.replace(/\s+/g, '').replace('°F', ''));
-        const celsius = fahrenheitToCelsius(fahrenheit); // Now passing a single value
+        // Extract the numeric temperature part and create an array
+        const fahrenheitArray = [parseFloat(obj.temperature.replace(/\s+/g, '').replace('°F', ''))];
+        
+        // Convert using the fahrenheitToCelsius function
+        const celsiusArray = fahrenheitToCelsius(fahrenheitArray);
+        const celsius = celsiusArray[0]; // Get the first (and only) value from the array
+        
+        // Capitalize the state name
         const stateCapitalized = obj.state.charAt(0).toUpperCase() + obj.state.slice(1);
+        
         return `${celsius} in ${obj.city}, ${stateCapitalized}`;
     });
 }
