@@ -27,7 +27,9 @@ const states = upperCasingStates(['alabama', 'new jersey']);
 function trimTemp(arr) {
     return arr.map(obj => ({
         city: obj.city,
-        temperature: obj.temperature.replace(/\s+/g, '') // Revove all spaces in the temperature
+        state: obj.state,
+        region: obj.region,
+        temperature: obj.temperature.replace(/\s+/g, '') // Remove all spaces in the temperature
     }));
 }
 
