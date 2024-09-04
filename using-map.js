@@ -38,7 +38,9 @@ const trimmedTemperatures = trimTemp([
 
 function fahrenheitToCelsius(fahrenheit) {
     // Convert Fahrenheit to Celsius
-    return Math.round((fahrenheit - 32) * 5 / 9);
+    const celsius = Math.round((fahrenheit - 32) * 5 / 9);
+    
+    return `${celsius}°C`;
 }
 
 function tempForecasts(arr) {
