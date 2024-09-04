@@ -1,14 +1,22 @@
-const forEach = (arr, func) => {
-    const result = [];
-    for ( let i = 0; i < arr.length; i++) {
-        result.push(func(arr[i]));
+function forEach(array, callback) {
+    // Check if the first argument is an array and the second is a function
+    if (!Array.isArray(array)) {
+        return undefined;
     }
-    return result;
+    if (typeof callback !== 'function') {
+        return undefined;
+    }
+
+    // Iterate over the array
+    for (let i = 0; i < array.length; i++) {
+        // Call the callback function with the current element, index, and the array
+        callback(array[i], i, array);
+    }
 }
 
 // const mult = num => {
-//     return num * 2;
+//     console.log(num * 2);
 // }
 
 // const arr = [1,2,3,4,5,]
-// console.log(forEach(arr, mult))
+// forEach(arr, mult)
