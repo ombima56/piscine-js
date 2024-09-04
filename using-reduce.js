@@ -4,14 +4,16 @@ function adder(arr, additionalValue = 0) {
 
 const numbers1 = [1, 2, 3, 4, 5];
 
-function sumOrMul(arr, initialVAlue) {
+function sumOrMul(arr, initialValue = 0) {
+    if (arr.length === 0) return initialValue; // Handle empty array case
+
     return arr.reduce((acc, num) => {
         if (num % 2 === 0) {
-            return acc * num; // If the numbers are multiple
+            return acc * num; // If the number is even, multiply
         } else {
-            return acc + num; // If the number are odd add
+            return acc + num; // If the number is odd, add
         }
-    }, initialVAlue);
+    }, initialValue);
 }
 
 const numbers2 = [1, 2, 3, 5, 8];
