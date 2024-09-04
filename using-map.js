@@ -42,14 +42,14 @@ function fahrenheitToCelsius(arr) {
     return arr.map(temp => {
         const fahrenheit = parseInt(temp); // Ensure it's an integer
         const celsius = Math.floor((fahrenheit - 32) * 5 / 9); // Convert to Celsius
-        return `${celsius}°C`; // Return as string with °C suffix
+        return `${celsius}°C`;
     });
 }
 
 function tempForecasts(arr) {
     return arr.map(obj => {
         // Extract the numeric temperature part and create an array
-        const fahrenheitArray = [parseFloat(obj.temperature.replace(/\s+/g, '').replace('°F', ''))];
+        const fahrenheitArray = parseFloat(obj.temperature.replace(/\s+/g, '').replace('°F', ''));
         
         // Convert using the fahrenheitToCelsius function
         const celsiusArray = fahrenheitToCelsius(fahrenheitArray);
