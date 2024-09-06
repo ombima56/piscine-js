@@ -9,7 +9,7 @@ const build = (n) => {
         newDiv.textContent = bricks;
 
         if (bricks % 3 === 2) {
-            newDiv.setAttribute("foundation", true);
+            newDiv.setAttribute("data-foundation", true);
         }
 
         document.body.appendChild(newDiv);
@@ -24,7 +24,7 @@ const build = (n) => {
 const repair = (...ids) => {
     ids.forEach(id => {
         const htmlElem = document.getElementById(id);
-        if (htmlElem.hasAttribute("foundation")) {
+        if (htmlElem.hasAttribute("data-foundation")) {
             htmlElem.setAttribute("data-repaired", "in progress")
         } else {
             htmlElem.setAttribute("data-repaired", true)
