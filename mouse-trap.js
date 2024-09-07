@@ -1,67 +1,55 @@
-let lastCircle = null; // To track the last created circle
-let box = null; // To store the box element
+let lastCircle;
 
-// Function to create a circle on click
-export function createCircle() {
+function createCircle() {
     document.addEventListener('click', (event) => {
-        // Create a div for the circle
         const circle = document.createElement('div');
         circle.classList.add('circle');
-        circle.style.backgroundColor = 'white'; // Set the background to white
-        circle.style.left = `${event.clientX - 25}px`; // Adjust for circle center
-        circle.style.top = `${event.clientY - 25}px`;
+        circle.style.backgroundColor = 'white'; // Initially set the background to white
+        circle.style.left = `${event.pageX - 25}px`;
+        circle.style.top = `${event.pageY - 25}px`;
         document.body.appendChild(circle);
-        lastCircle = circle; // Update last created circle
+        lastCircle = circle; // Keep track of the last created circle
     });
 }
 
-// Function to move the last created circle along with the mouse
-export function moveCircle() {
+function moveCircle() {
     document.addEventListener('mousemove', (event) => {
-        if (lastCircle) {
-            lastCircle.style.left = `${event.clientX - 25}px`; // Adjust for circle center
-            lastCircle.style.top = `${event.clientY - 25}px`;
-            checkIfInsideBox(lastCircle);
+        if (!lastCircle) return;
+
+        const x = event.pageX - 25;
+        const y = event.pageY - 25;
+
+        lastCircle.style.left = `${x}px`;
+        lastCircle.style.top = `${y}px`;
+
+        // Check if circle is inside the box
+        const box = document.querySelector('.box');
+        const boxRect = box.getBoundingClientRect();
+        const circleRect = lastCircle.getBoundingClientRect();
+
+        const circleInsideBox =
+            circleRect.left > boxRect.left &&
+            circleRect.right < boxRect.right &&
+            circleRect.top > boxRect.top &&
+            circleRect.bottom < boxRect.bottom;
+
+        if (circleInsideBox) {
+            lastCircle.style.backgroundColor = 'var(--purple)';
+        } else {
+            lastCircle.style.backgroundColor = 'white';
         }
     });
 }
 
-// Function to create the box in the center of the page
-export function setBox() {
-    // Create a box
-    box = document.createElement('div');
+function setBox() {
+    const box = document.createElement('div');
     box.classList.add('box');
     box.style.position = 'absolute';
-    box.style.left = `${(window.innerWidth - box.offsetWidth) / 2}px`;
-    box.style.top = `${(window.innerHeight - box.offsetHeight) / 2}px`;
-
-    // Center the box in the page
-    const boxWidth = window.innerWidth * 0.25; // 25vw
-    const boxHeight = window.innerHeight * 0.25; // 25vh
-    box.style.width = `${boxWidth}px`;
-    box.style.height = `${boxHeight}px`;
-    box.style.left = `${(window.innerWidth - boxWidth) / 2}px`;
-    box.style.top = `${(window.innerHeight - boxHeight) / 2}px`;
-
+    box.style.left = '50%';
+    box.style.top = '50%';
+    box.style.transform = 'translate(-50%, -50%)';
     document.body.appendChild(box);
 }
 
-// Function to check if a circle is inside the box
-function checkIfInsideBox(circle) {
-    const circleRect = circle.getBoundingClientRect();
-    const boxRect = box.getBoundingClientRect();
+export { setBox, createCircle, moveCircle };
 
-    // Check if the circle is entirely inside the box
-    const isInside = (
-        circleRect.left >= boxRect.left &&
-        circleRect.right <= boxRect.right &&
-        circleRect.top >= boxRect.top &&
-        circleRect.bottom <= boxRect.bottom
-    );
-
-    // If the circle is inside, change its background to purple and trap it
-    if (isInside) {
-        circle.style.backgroundColor = 'var(--purple)';
-        circle.style.pointerEvents = 'none'; // Disable interaction to prevent escape
-    }
-}
