@@ -2,14 +2,15 @@ function getRandomColor(key) {
     const hash = key.charCodeAt(0);
     const hue = (hash * 137) % 360;
     return `hsl(${hue}, 80%, 60%)`;
-}
+  }
   
-function compose() {
+  function compose() {
     const container = document.createElement('div');
     container.id = 'note-container';
     document.body.appendChild(container);
   
     document.addEventListener('keydown', (event) => {
+      event.preventDefault(); // Prevent default behavior for all keys
       const key = event.key.toLowerCase();
       
       if (key >= 'a' && key <= 'z') {
@@ -19,7 +20,6 @@ function compose() {
         note.textContent = key;
         container.appendChild(note);
       } else if (key === 'backspace') {
-        event.preventDefault(); // Prevent default backspace behavior
         const notes = container.querySelectorAll('.note');
         if (notes.length > 0) {
           notes[notes.length - 1].remove();
@@ -28,7 +28,7 @@ function compose() {
         container.innerHTML = '';
       }
     });
-}
+  }
   
-export { compose };
+  export { compose };
   
