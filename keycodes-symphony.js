@@ -2,9 +2,9 @@ function getRandomColor(key) {
     const hash = key.charCodeAt(0);
     const hue = (hash * 137) % 360;
     return `hsl(${hue}, 80%, 60%)`;
-}
+  }
   
-function compose() {
+  function compose() {
     const body = document.body;
   
     // Keydown event listener
@@ -30,10 +30,9 @@ function compose() {
         notes.forEach(note => note.remove());
       }
     });
-}
-
-document.addEventListener('keydown', compose)
+  }
   
-export { compose };
-
+  compose();
+  
+  export { compose };
   
