@@ -1,5 +1,5 @@
-const CIRCLE_SIZE = 50;
-const CIRCLE_RADIUS = CIRCLE_SIZE / 2;
+const circleSize = 50;
+const circleRadius = circleSize / 2;
 let activeCircle = null;
 let isDragging = false;
 
@@ -16,15 +16,16 @@ export function createCircle(e) {
 function createCircleElement(x, y) {
   const circle = document.createElement('div');
   circle.className = 'circle';
+  circle.style.position = 'absolute'; // Ensure positioning is absolute
   setCirclePosition(circle, x, y);
-  circle.style.background = 'white';
+  circle.style.background = 'white'; // Initial background color
   return circle;
 }
 
-// Helper function to set the position of the circle
+// Helper function to set the circle's position
 function setCirclePosition(circle, x, y) {
-  circle.style.left = `${x - CIRCLE_RADIUS}px`;
-  circle.style.top = `${y - CIRCLE_RADIUS}px`;
+  circle.style.left = `${x - circleRadius}px`;
+  circle.style.top = `${y - circleRadius}px`;
 }
 
 // Function to move the last created circle with the mouse
@@ -34,26 +35,28 @@ export function moveCircle(e) {
   const boxRect = document.querySelector('.box').getBoundingClientRect();
   const newCoordinates = calculateNewCoordinates(e.clientX, e.clientY, boxRect);
 
-  setCirclePosition(activeCircle, newCoordinates.x + CIRCLE_RADIUS, newCoordinates.y + CIRCLE_RADIUS);
+  setCirclePosition(activeCircle, newCoordinates.x, newCoordinates.y);
 }
 
 // Function to calculate new coordinates for the circle
 function calculateNewCoordinates(mouseX, mouseY, boxRect) {
-  let newX = mouseX - CIRCLE_RADIUS;
-  let newY = mouseY - CIRCLE_RADIUS;
+  let newX = mouseX - circleRadius;
+  let newY = mouseY - circleRadius;
 
-  if (isInsideBox(activeCircle, boxRect)) {
+  if (isInsideBox(newX, newY, boxRect)) {
     activeCircle.style.background = 'var(--purple)';
-    newX = clamp(newX, boxRect.left + 1, boxRect.right - CIRCLE_SIZE - 1);
-    newY = clamp(newY, boxRect.top + 1, boxRect.bottom - CIRCLE_SIZE - 1);
+    newX = clamp(newX, boxRect.left + 1, boxRect.right - circleSize - 1);
+    newY = clamp(newY, boxRect.top + 1, boxRect.bottom - circleSize - 1);
+  } else {
+    activeCircle.style.background = 'white'; // Reset to default color if outside
   }
 
   return { x: newX, y: newY };
 }
 
-// Helper function to clamp a value between a minimum and maximum
+// Function to clamp values within a range
 function clamp(value, min, max) {
-  return Math.max(min, Math.min(value, max));
+  return Math.max(min, Math.min(max, value));
 }
 
 // Function to stop dragging the circle
@@ -74,13 +77,12 @@ export function setBox() {
 }
 
 // Helper function to check if the circle is inside the box
-function isInsideBox(circle, boxRect) {
-  const circleRect = circle.getBoundingClientRect();
+function isInsideBox(circleX, circleY, boxRect) {
   return (
-    circleRect.left >= boxRect.left + 1 &&
-    circleRect.right <= boxRect.right - 1 &&
-    circleRect.top >= boxRect.top + 1 &&
-    circleRect.bottom <= boxRect.bottom - 1
+    circleX >= boxRect.left + circleRadius &&
+    circleX <= boxRect.right - circleRadius &&
+    circleY >= boxRect.top + circleRadius &&
+    circleY <= boxRect.bottom - circleRadius
   );
 }
 
