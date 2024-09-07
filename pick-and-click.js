@@ -20,13 +20,13 @@ export function pick() {
     svg.appendChild(axisY);
 
     // Set initial attributes for SVG lines
-    axisX.setAttribute('id', 'axisX');
-    axisY.setAttribute('id', 'axisY');
-    axisX.setAttribute('stroke', 'grey');
-    axisY.setAttribute('stroke', 'grey');
+    axisX.setAttributeNS(null, 'id', 'axisX');
+    axisY.setAttributeNS(null, 'id', 'axisY');
+    axisX.setAttributeNS(null, 'stroke', 'grey');
+    axisY.setAttributeNS(null, 'stroke', 'grey');
 
     // Mousemove event
-    document.addEventListener('mousemove', (e) => {
+    const mousemoveHandler = (e) => {
         const hue = Math.round((e.clientX / window.innerWidth) * 360);
         const luminosity = Math.round((1 - e.clientY / window.innerHeight) * 100);
 
@@ -39,19 +39,21 @@ export function pick() {
         luminosityDisplay.textContent = `Luminosity: ${luminosity}`;
 
         // Update SVG lines
-        axisX.setAttribute('x1', e.clientX);
-        axisX.setAttribute('y1', 0);
-        axisX.setAttribute('x2', e.clientX);
-        axisX.setAttribute('y2', window.innerHeight);
+        axisX.setAttributeNS(null, 'x1', e.clientX);
+        axisX.setAttributeNS(null, 'y1', 0);
+        axisX.setAttributeNS(null, 'x2', e.clientX);
+        axisX.setAttributeNS(null, 'y2', window.innerHeight);
         
-        axisY.setAttribute('x1', 0);
-        axisY.setAttribute('y1', e.clientY);
-        axisY.setAttribute('x2', window.innerWidth);
-        axisY.setAttribute('y2', e.clientY);
-    });
+        axisY.setAttributeNS(null, 'x1', 0);
+        axisY.setAttributeNS(null, 'y1', e.clientY);
+        axisY.setAttributeNS(null, 'x2', window.innerWidth);
+        axisY.setAttributeNS(null, 'y2', e.clientY);
+    };
+
+    document.addEventListener('mousemove', mousemoveHandler);
 
     // Click event
-    document.addEventListener('click', async () => {
+    const clickHandler = async () => {
         const hslValue = hslDisplay.textContent;
         if (hslValue) {
             try {
@@ -61,5 +63,7 @@ export function pick() {
                 console.error('Failed to copy: ', err);
             }
         }
-    });
+    };
+
+    document.addEventListener('click', clickHandler);
 }
