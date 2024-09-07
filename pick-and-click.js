@@ -1,69 +1,72 @@
-export function pick() {
+function pick() {
     const body = document.body;
-    const hslDisplay = document.createElement('div');
-    const hueDisplay = document.createElement('div');
-    const luminosityDisplay = document.createElement('div');
+    const hslDiv = document.createElement('div');
+    const hueDiv = document.createElement('div');
+    const luminosityDiv = document.createElement('div');
+    
+    hslDiv.className = 'hsl';
+    hueDiv.className = 'hue text';
+    luminosityDiv.className = 'luminosity text';
+    
+    body.appendChild(hslDiv);
+    body.appendChild(hueDiv);
+    body.appendChild(luminosityDiv);
+    
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+    svg.style.position = 'fixed';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    svg.style.pointerEvents = 'none';
+    
     const axisX = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     const axisY = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-
-    hslDisplay.className = 'hsl text';
-    hueDisplay.className = 'hue text';
-    luminosityDisplay.className = 'luminosity text';
-
-    body.appendChild(hslDisplay);
-    body.appendChild(hueDisplay);
-    body.appendChild(luminosityDisplay);
-    body.appendChild(svg);
-
+    
+    axisX.id = 'axisX';
+    axisY.id = 'axisY';
+    
+    axisX.setAttribute('stroke', 'black');
+    axisY.setAttribute('stroke', 'black');
+    
     svg.appendChild(axisX);
     svg.appendChild(axisY);
-
-    // Set initial attributes for SVG lines
-    axisX.setAttributeNS(null, 'id', 'axisX');
-    axisY.setAttributeNS(null, 'id', 'axisY');
-    axisX.setAttributeNS(null, 'stroke', 'grey');
-    axisY.setAttributeNS(null, 'stroke', 'grey');
-
-    // Mousemove event
-    const mousemoveHandler = (e) => {
-        const hue = Math.round((e.clientX / window.innerWidth) * 360);
-        const luminosity = Math.round((1 - e.clientY / window.innerHeight) * 100);
-
-        // Update body background color
-        body.style.background = `hsl(${hue}, 100%, ${luminosity}%)`;
-
-        // Update displays
-        hslDisplay.textContent = `hsl(${hue}, 100%, ${luminosity}%)`;
-        hueDisplay.textContent = `Hue: ${hue}`;
-        luminosityDisplay.textContent = `Luminosity: ${luminosity}`;
-
-        // Update SVG lines
-        axisX.setAttributeNS(null, 'x1', e.clientX);
-        axisX.setAttributeNS(null, 'y1', 0);
-        axisX.setAttributeNS(null, 'x2', e.clientX);
-        axisX.setAttributeNS(null, 'y2', window.innerHeight);
-        
-        axisY.setAttributeNS(null, 'x1', 0);
-        axisY.setAttributeNS(null, 'y1', e.clientY);
-        axisY.setAttributeNS(null, 'x2', window.innerWidth);
-        axisY.setAttributeNS(null, 'y2', e.clientY);
-    };
-
-    document.addEventListener('mousemove', mousemoveHandler);
-
-    // Click event
-    const clickHandler = async () => {
-        const hslValue = hslDisplay.textContent;
-        if (hslValue) {
-            try {
-                await navigator.clipboard.writeText(hslValue);
-                alert('HSL value copied to clipboard!');
-            } catch (err) {
-                console.error('Failed to copy: ', err);
-            }
-        }
-    };
-
-    document.addEventListener('click', clickHandler);
+    body.appendChild(svg);
+    
+    document.addEventListener('mousemove', (event) => {
+      const x = event.clientX;
+      const y = event.clientY;
+      
+      const hue = Math.round((x / window.innerWidth) * 360);
+      const luminosity = Math.round((y / window.innerHeight) * 100);
+      const saturation = 50;
+      
+      const hslColor = `hsl(${hue}, ${saturation}%, ${luminosity}%)`;
+      
+      body.style.background = hslColor;
+      hslDiv.textContent = hslColor;
+      hueDiv.textContent = `hue: ${hue}`;
+      luminosityDiv.textContent = `luminosity: ${luminosity}`;
+      
+      axisX.setAttribute('x1', x);
+      axisX.setAttribute('x2', x);
+      axisX.setAttribute('y1', 0);
+      axisX.setAttribute('y2', '100%');
+      
+      axisY.setAttribute('x1', 0);
+      axisY.setAttribute('x2', '100%');
+      axisY.setAttribute('y1', y);
+      axisY.setAttribute('y2', y);
+    });
+    
+    document.addEventListener('click', () => {
+      const hslValue = hslDiv.textContent;
+      navigator.clipboard.writeText(hslValue).then(() => {
+        console.log('HSL value copied to clipboard');
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    });
 }
+
+  export {pick}
