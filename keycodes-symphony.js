@@ -19,6 +19,7 @@ function compose() {
         note.textContent = key;
         container.appendChild(note);
       } else if (key === 'backspace') {
+        event.preventDefault(); // Prevent default backspace behavior
         const notes = container.querySelectorAll('.note');
         if (notes.length > 0) {
           notes[notes.length - 1].remove();
