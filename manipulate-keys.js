@@ -17,16 +17,17 @@ const mapKeys = (obj, func) => {
     return result;
 }
 
-const reduceKeys = (obj, func, initialValue = 0) => {
-    let accumulator = initialValue;
-
-    for (const key of Object.keys(obj)) {
-        if (accumulator == '') {
-            accumulator = key;
-        } else {
-            accumulator = func(accumulator, key);
-        }
+const reduceKeys = (obj, func, initialValue) => {
+    const keys = Object.keys(obj);
+    
+    // If initialValue is not provided, use the first key as the initial value
+    let accumulator = initialValue !== undefined ? initialValue : keys[0];
+    let startIndex = initialValue !== undefined ? 0 : 1;
+    
+    for (let i = startIndex; i < keys.length; i++) {
+      accumulator = func(accumulator, keys[i], i);
     }
+    
     return accumulator;
 }
 
