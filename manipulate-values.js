@@ -15,19 +15,18 @@ const mapValues = (obj, func) => {
 
     for ( const [key, value] of Object.entries(obj)) {
         if (func(value)) {
-            result[key] = func(value)
+            result[key] = func(value);
         }
     }
-    return result
+    return result;
 }
 
-const reduceValues = (obj, func, initialValue) => {
+const reduceValues = (obj, func, initialValue = 0) => {
     let acc = initialValue;
     for (const  value of Object.values(obj)) {
-        acc = func(acc, value)
-        
+        acc = func(acc, value);  
     }
-    return acc
+    return acc;
 }
 
 const nutrients = { carbohydrates: 12, protein: 20, fat: 5 };
