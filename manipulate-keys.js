@@ -17,7 +17,7 @@ const mapKeys = (obj, func) => {
     return result;
 }
 
-const reduceKeys = (obj, func, initialValue = '') => {
+const reduceKeys = (obj, func, initialValue = 0) => {
     let accumulator = initialValue;
 
     for (const key of Object.keys(obj)) {
