@@ -42,7 +42,7 @@ const totalCalories = (cart) => {
     return reduceEntries(cart, (acc, [key, grams]) => {
         const caloriesPer100g = (nutritionDB[key] && nutritionDB[key].calories) || 0;
         return acc + (caloriesPer100g * (grams / 100));
-    }, 0);
+    }, 0).toFixed(1);
 }
 
 const lowCarbs = (cart) => {
