@@ -12,12 +12,11 @@ const pick = (obj, keys) => {
 
 const omit = (obj, keys) => {
     const containKey = {};
-
     const keysArray = Array.isArray(keys) ? keys : [keys];
-    for (const key of keysArray) {
-        if (!key in obj) {
-            containKey[key] = obj[key];
-        }
+    for (const key of Object.keys(obj)) {
+      if (!keysArray.includes(key)) {
+        containKey[key] = obj[key];
+      }
     }
     return containKey;
 }
