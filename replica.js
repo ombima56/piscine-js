@@ -7,14 +7,14 @@ const replica = (target, ...sources) => {
         if (source && typeof source === 'object') {
             Object.entries(source).forEach(([key, value]) => {
                 if (value instanceof RegExp || typeof value === 'function') {
-                    target[key] = value;
+                    target[key] = value; // Directly assign functions and regex
                 } else if (value && typeof value === 'object') {
-                    if (!target[key]) {
-                        target[key] = Array.isArray(value) ? [] : {};
+                    if (!target[key] || typeof target[key] !== 'object') {
+                        target[key] = Array.isArray(value) ? [] : {}; // Initialize if it doesn't exist or is not an object
                     }
-                    replica(target[key], value);
+                    replica(target[key], value); // Recursively copy nested objects
                 } else {
-                    target[key] = value;
+                    target[key] = value; // Assign primitive values
                 }
             });
         }
