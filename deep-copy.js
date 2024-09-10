@@ -22,13 +22,17 @@ const deepCopy = (item) => {
     if (item instanceof 'function') {
         return item;
     }
-
+    
     // Handle Object literals
-    const copy = {};
-    Object.keys(item).forEach(key => {
-      copy[key] = deepCopy(item[key]);
-    });
-    return copy;
+    if (typeof item === 'object') {
+      const copy = {};
+      Object.keys(item).forEach(key => {
+        copy[key] = deepCopy(item[key]);
+      });
+      return copy;
+    }
+    
+    return Object.assign({}, item);
 }
 
 // const original = {
