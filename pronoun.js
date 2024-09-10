@@ -8,14 +8,15 @@ const pronoun = (str) => {
         const word = words[i].toLowerCase();
 
         if (pronouns.includes(word)) {
-            const nextWord = words[i+1]; // Getting the word after the pronoun
+            const nextWord = words[i + 1]; // Getting the word after the pronoun
 
             if (!result[word]) {
-                result[word] = { word: [], count: 0};
+                result[word] = { word: [], count: 0 };
             }
 
+            // Trim the next word of punctuation and whitespace
             if (nextWord) {
-                result[word].word.push(nextWord);
+                result[word].word.push(nextWord.replace(/[.,]/g, '').trim());
             }
             result[word].count++;
         }
