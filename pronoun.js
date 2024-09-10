@@ -7,27 +7,20 @@ const pronoun = (str) => {
         const word = words[i].toLowerCase();
 
         if (pronouns.includes(word)) {
-            const nextWord = words[i + 1]; // Getting the word after the pronoun
-
             if (!result[word]) {
                 result[word] = { word: [], count: 0 };
             }
 
             // Find the next non-pronoun word
-            let foundNextWord = false;
             for (let j = i + 1; j < words.length; j++) {
                 const potentialNextWord = words[j].replace(/[.,]/g, '').trim();
                 if (!pronouns.includes(potentialNextWord.toLowerCase())) {
                     result[word].word.push(potentialNextWord);
-                    foundNextWord = true;
                     break; // Stop searching after finding the first non-pronoun word
                 }
             }
 
             result[word].count++;
-            if (foundNextWord) {
-                i += words.slice(i + 1).indexOf(potentialNextWord); // Skip to the next non-pronoun word
-            }
         }
     }
     return result;
