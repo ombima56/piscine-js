@@ -12,21 +12,28 @@ const pronoun = (str) => {
         result[word].count++;
   
         // Find the next non-pronoun word
+        let foundWord = false;
         for (let j = i + 1; j < words.length; j++) {
           const nextWord = words[j].replace(/[.,]/g, '').trim();
           if (!pronouns.includes(nextWord)) {
-            // Only add the word if it's not already in the array
-            if (!result[word].word.includes(nextWord)) {
+            foundWord = true;
+            // Only add the word if it's the first occurrence of this pronoun
+            if (result[word].count === 1) {
               result[word].word.push(nextWord);
             }
             break;
           }
         }
+        
+        // If no word found or it's a repeated pronoun, ensure the word array is empty
+        if (!foundWord || result[word].count > 1) {
+          result[word].word = [];
+        }
       }
     }
   
     return result;
-};
+}  
 
 const ex1 = 'Using Array Destructuring, you you can iterate through objects easily.';
 console.log(pronoun(ex1)); 
