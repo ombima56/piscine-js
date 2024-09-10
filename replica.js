@@ -11,7 +11,11 @@ const replica = (target, ...sources) => {
                 } else if (Array.isArray(value)) {
                     target[key] = [...value]; // Directly assign a copy of the array
                 } else if (value && typeof value === 'object') {
-                    if (!target[key] || typeof target[key] !== 'object') {
+                    // Check if target is an array
+                    if (Array.isArray(target[key])) {
+                        // If target is an array, replace it with the new object
+                        target[key] = {};
+                    } else if (!target[key] || typeof target[key] !== 'object') {
                         target[key] = {}; // Initialize as an object if it doesn't exist or is not an object
                     }
                     replica(target[key], value); // Recursively copy nested objects
