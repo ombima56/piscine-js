@@ -6,7 +6,9 @@ const replica = (target, ...sources) => {
     sources.forEach(source => {
         if (source && typeof source === 'object') {
             Object.entries(source).forEach(([key, value]) => {
-                if (value && typeof value === 'object') {
+                if (value instanceof RegExp || typeof value === 'function') {
+                    target[key] = value;
+                } else if (value && typeof value === 'object') {
                     if (!target[key]) {
                         target[key] = Array.isArray(value) ? [] : {};
                     }
