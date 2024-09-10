@@ -1,26 +1,27 @@
 const deepCopy = (item) => {
-    if (item === null || typeof obj !== 'object') {
-        return item;
+    if (item === null || typeof item !== 'object') {
+      return item;
     }
-
+    
     // Handle Date objects
     if (item instanceof Date) {
-        return new Date(item.getTime());
+      return new Date(item.getTime());
     }
     
     // Handle Array objects
     if (Array.isArray(item)) {
-        return item.map(deepCopy);
+      return item.map(deepCopy);
     }
-
+    
     // Handle Object literals
     if (typeof item === 'object') {
-        const copy = {};
-        Object.keys(item).forEach(key => {
-            copy[key] = deepCopy[item[key]];
-        });
-        return copy;
+      const copy = {};
+      Object.keys(item).forEach(key => {
+        copy[key] = deepCopy(item[key]);
+      });
+      return copy;
     }
+    
     return Object.assign({}, item);
 }
 
