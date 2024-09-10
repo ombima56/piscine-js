@@ -13,16 +13,22 @@ const deepCopy = (item) => {
       return item.map(deepCopy);
     }
     
-    // Handle Object literals
-    if (typeof item === 'object') {
-      const copy = {};
-      Object.keys(item).forEach(key => {
-        copy[key] = deepCopy(item[key]);
-      });
-      return copy;
+    // Handle RegExp objects
+    if (item instanceof RegExp) {
+        return new RegExp(item.source, item.flags);
     }
-    
-    return Object.assign({}, item);
+
+    // Handle function object
+    if (item instanceof 'function') {
+        return item;
+    }
+
+    // Handle Object literals
+    const copy = {};
+    Object.keys(item).forEach(key => {
+      copy[key] = deepCopy(item[key]);
+    });
+    return copy;
 }
 
 // const original = {
