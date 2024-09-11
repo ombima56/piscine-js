@@ -3,39 +3,32 @@ const neuron = (data) => {
       return {};
     }
   
-    const result = {
-      questions: {},
-      orders: {}
-    };
+    const result = {};
   
     data.forEach(item => {
       const [typeAndQuery, response] = item.split(' - Response: ');
       const [type, ...queryParts] = typeAndQuery.split(': ');
       const query = queryParts.join(': '); // In case the query itself contains ': '
   
-      if (type === 'Questions') {
-        const key = query.toLowerCase().replace(/\s+/g, '_').replace(/[?!]/g, '');
-        if (!result.questions[key]) {
-          result.questions[key] = {
-            question: query,
-            responses: []
-          };
-        }
-        result.questions[key].responses.push(response);
-      } else if (type === 'Orders') {
-        const key = query.toLowerCase().replace(/\s+/g, '_').replace(/[!?]/g, '');
-        if (!result.orders[key]) {
-          result.orders[key] = {
-            order: query,
-            responses: []
-          };
-        }
-        result.orders[key].responses.push(response);
+      const typeLower = type.toLowerCase();
+      const key = query.toLowerCase().replace(/\s+/g, '_').replace(/[?!]/g, '');
+  
+      if (!result[typeLower]) {
+        result[typeLower] = {};
       }
+  
+      if (!result[typeLower][key]) {
+        result[typeLower][key] = {
+          [typeLower.slice(0, -1)]: query, // Remove 's' from type for singular form
+          responses: []
+        };
+      }
+  
+      result[typeLower][key].responses.push(response);
     });
   
     return result;
-}
+  }
   
 const testData = [
     'Questions: what is ounces? - Response: Ounce, unit of weight in the avoirdupois system',
