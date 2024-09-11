@@ -1,4 +1,8 @@
-const neuron = (data) =>{
+const neuron = (data) => {
+    if (data.length === 0) {
+      return {};
+    }
+  
     const result = {
       questions: {},
       orders: {}
