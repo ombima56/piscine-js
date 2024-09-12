@@ -8,23 +8,21 @@ const interpolation = ({ step, start, end, callback, duration, waitTime }) => {
         const interval = (end - start) / (step - 1);
         const delay = duration / (step - 1);
 
-        let currentStep = 0;
-
-        const executeStep = () => {
-            if (currentStep < step) {
-                const x = start + interval * currentStep;
-                const y = delay * currentStep;
-                callback([x, y]);
-                currentStep++;
-                setTimeout(executeStep, delay);
-            } else {
-                resolve({ length: currentStep });
-            }
-        };
-
-        setTimeout(executeStep, waitTime);
+        setTimeout(() => {
+            const executeStep = (currentStep) => {
+                if (currentStep < step) {
+                    const x = start + interval * currentStep;
+                    const y = delay * currentStep;
+                    callback([x, y]);
+                    setTimeout(() => executeStep(currentStep + 1), delay);
+                } else {
+                    resolve({ length: currentStep });
+                }
+            };
+            executeStep(0);
+        }, waitTime);
     });
-}
+};
 
 const step = 5;
 const start = 0;
