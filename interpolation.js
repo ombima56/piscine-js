@@ -1,15 +1,13 @@
 const interpolation = ({step, start, end, callback, duration}) => {
     const interval = (end - start) / (step - 1);
-    const delay = duration / (step - 1);
     
-    for (let i = 0; i < step; i++) {
+    setTimeout(() => {
+      for (let i = 0; i < step; i++) {
         const x = start + interval * i;
-        const y = delay * i;
-        
-        setTimeout(() => {
-            callback([x, y]);
-        }, delay * i);
-    }
+        const y = (duration / (step - 1)) * i;
+        callback([x, y]);
+      }
+    }, duration);
 }
 
 const step = 5;
