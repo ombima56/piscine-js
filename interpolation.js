@@ -1,28 +1,26 @@
 const interpolation = ({ step, start, end, callback, duration, waitTime }) => {
-    const interval = (end - start) / (step - 1);
-    const delay = duration / (step - 1);
-
-    if (waitTime >= duration) {
-        return [];
-    }
-
-    const points = [];
-
-    const callCallback = (i) => {
-        if (i < step) {
-            const x = start + interval * i;
-            const y = delay * i;
-
-            setTimeout(() => {
-                callback([x, y]);
-                points.push([x, y]); // Store the points in the array
-                callCallback(i + 1); // Recursive call
-            }, delay * i);
+    return new Promise((resolve) => {
+      if (waitTime >= duration) {
+        resolve({ length: 0 });
+        return;
+      }
+  
+      const interval = (end - start) / (step - 1);
+      const delay = duration / (step - 1);
+  
+      const executeStep = (currentStep) => {
+        if (currentStep < step) {
+          const x = start + interval * currentStep;
+          const y = delay * currentStep;
+          callback([x, y]);
+          setTimeout(() => executeStep(currentStep + 1), 0);
+        } else {
+          resolve({ length: currentStep });
         }
-    };
-
-    callCallback(0); 
-    return points;
+      };
+  
+      setTimeout(() => executeStep(0), waitTime);
+    });
 }
 
 const step = 5;
