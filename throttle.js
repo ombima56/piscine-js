@@ -23,7 +23,6 @@ const opThrottle = (func, wait, options) => {
     let lastCallTime = 0;
     let result;
   
-    // Set default options
     if (typeof options !== 'object') {
       options = { leading: false, trailing: true };
     } else if (options.leading === undefined && options.trailing === undefined) {
