@@ -5,12 +5,12 @@ const interpolation = ({ step, start, end, callback, duration }) => {
     const interpolate = (i) => {
         if (i < step) {
             const x = start + interval * i;
-            const y = delay * i;
+            const y = duration * (i / (step - 1)); // Calculate y based on the total duration
 
             setTimeout(() => {
                 callback([x, y]);
-                interpolate(i + 1);
-            }, delay);
+                interpolate(i + 1); // Recursive call for the next step
+            }, delay * i);
         }
     };
 
