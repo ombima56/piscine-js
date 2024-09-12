@@ -1,4 +1,4 @@
-const interpolation = ({step, start, end, func, duration}) => {
+const interpolation = ({step, start, end, callback, duration}) => {
     const interval = (end - start) / (step - 1);
     const delay = duration / (step - 1);
     
@@ -7,8 +7,8 @@ const interpolation = ({step, start, end, func, duration}) => {
         const y = delay * i;
         
         setTimeout(() => {
-            func([x, y]);
-        }, y);
+            callback([x, y]);
+        }, delay * i);
     }
 }
 
@@ -22,5 +22,5 @@ interpolation({
     start,
     end,
     duration,
-    func: (point) => console.log('Interpolated point:', point)
+    callback: (point) => console.log('Interpolated point:', point)
 });
