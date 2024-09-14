@@ -1,31 +1,23 @@
-const interpolation = ({ step, start, end, callback, duration, waitTime }) => {
-    return new Promise((resolve) => {
-        if (waitTime >= duration) {
-            resolve({ length: 0 });
-            return;
+function interpolation({step = 0, start = 0, end = 0,
+    callback = () => {},
+    duration = 0,
+} = {}) {
+    const delta = (end - start) / step;
+    let current = start;
+    let iteration = 0;
+
+    const intervalDuration = duration / step;
+
+    const timer = setInterval(() => {
+        if (iteration < step) {
+            callback([current, intervalDuration * (iteration + 1)]);
+            current += delta;
+            iteration++;
+        } else {
+            clearInterval(timer);
         }
-
-        const interval = (end - start) / (step - 1);
-        const delay = duration / (step - 1);
-        
-        let currentStep = 0;
-
-        setTimeout(() => {
-            const executeStep = () => {
-                if (currentStep < step) {
-                    const x = start + interval * currentStep;
-                    const y = delay * currentStep;
-                    callback([x, y]);
-                    currentStep++;
-                    setTimeout(executeStep, delay);
-                } else {
-                    resolve({ length: currentStep });
-                }
-            };
-            executeStep();
-        }, waitTime);
-    });
-};
+    }, intervalDuration);
+}
 
 const step = 5;
 const start = 0;
