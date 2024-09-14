@@ -5,12 +5,12 @@ const retry = (count, callback) => {
           return await callback(...args);
         } catch (error) {
           if (attempts === count) {
-            throw new Error(`Failed after ${attempts} attempts: ${error.message}`);
+            throw error;
         }
         }
       }
     };
-};
+}
 
 const timeout = (delay, callback) => {
     return async (...args) => {
@@ -21,7 +21,7 @@ const timeout = (delay, callback) => {
         try {
             return await Promise.race([callback(...args), timeoutPromise]);
         } catch (error) {
-            throw new Error(`Operation timed out: ${error.message}`);
+            throw error;
         }
     };
 }
