@@ -2,9 +2,9 @@ async function getJSON(path = '', params = {}) {
     // Construct the URL with query parameters
     const queryString = new URLSearchParams();
 
-    // Append parameters to URLSearchParams, encoding them properly
+    // Append parameters to URLSearchParams; no need to manually encode keys
     for (const [key, value] of Object.entries(params)) {
-        queryString.append(encodeURIComponent(key.trim()), encodeURIComponent(value.toString().trim()));
+        queryString.append(key.trim(), value.toString().trim());
     }
 
     const url = `${path}?${queryString.toString()}`;
