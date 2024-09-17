@@ -17,6 +17,5 @@ if (args.length === 0) {
 }
 
 const inputString = args.join(' ');
-
 const result = veryDisco(inputString);
 console.log(result);
