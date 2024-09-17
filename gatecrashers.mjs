@@ -1,6 +1,9 @@
-const http = require('http');
-const fs = require('fs').promises;
-const path = require('path');
+import http from 'http';
+import { promises as fs } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const PORT = 5000;
 const AUTHORIZED_USERS = ['Caleb_Squires', 'Tyrique_Dalton', 'Rahima_Young'];
@@ -23,8 +26,8 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         const guestData = JSON.parse(body);
-        const guestName = req.url.slice(1);
-        const filePath = path.join(__dirname, `${guestName}.json`);
+        const guestName = req.url.slice(1); // Remove leading '/'
+        const filePath = join(__dirname, `${guestName}.json`);
 
         await fs.writeFile(filePath, JSON.stringify(guestData, null, 2));
 
@@ -41,7 +44,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
-const isAuthorized = (authHeader) => {
+function isAuthorized(authHeader) {
   const base64Credentials = authHeader.split(' ')[1];
   const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
   const [username, password] = credentials.split(':');
@@ -52,3 +55,5 @@ const isAuthorized = (authHeader) => {
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+export { server };
