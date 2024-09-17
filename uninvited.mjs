@@ -1,46 +1,39 @@
-import http from 'node:http';
-import { writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { createServer } from 'node:http';
+import { writeFile } from 'node:fs';
+const port = 5000
 
-const port = 5000;
-
-const requestListener = async (req, res) => {
-    if (req.method === 'POST') {
+const server = createServer((request, response) => {
+    const url = new URL(request.url, `http://${request.headers.host}`);
+    const guestName = url.pathname.slice(1);
+    response.setHeader('Content-Type', 'application/json');
+    if (request.method === 'POST') {
         let body = '';
-
-        req.on('data', chunk => {
-            body += chunk.toString();
-        });
-
-        req.on('end', async () => {
+        request.on('data', chunk => body += chunk);
+        request.on('end', () => {
             try {
-                const guest = JSON.parse(body);
-                
-                if (!guest.name) {
-                    res.writeHead(400, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ error: 'Name is required' }));
-                    return;
-                }
-
-                const fileName = join(process.cwd(), `${guest.name}.json`);
-                await writeFile(fileName, JSON.stringify(guest, null, 2)); 
-
-                res.writeHead(201, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify(guest));
+                const jsonContent = JSON.parse(body);
+                writeFile(`guests/${guestName}.json`, JSON.stringify(jsonContent), (err) => {
+                    if (err) {
+                        console.error('Error writing file:', err);
+                        response.statusCode = 500;
+                        response.end(JSON.stringify({ error: "server failed" }));
+                    } else {
+                        response.statusCode = 201;
+                        response.end(JSON.stringify(jsonContent));
+                    }
+                });
             } catch (error) {
-                console.error('Error:', error);
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: 'server failed' }));
+                console.error('Error parsing JSON:', error);
+                response.statusCode = 400;
+                response.end(JSON.stringify({ error: "Invalid JSON" }));
             }
         });
     } else {
-        res.writeHead(405, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'Method not allowed' }));
+        response.statusCode = 405;
+        response.end(JSON.stringify({ error: "wrong method" }));
     }
-};
-
-const server = http.createServer(requestListener);
+});
 
 server.listen(port, () => {
-    console.log(`Server is listening on port ${port}`);
+    console.log(`Server started on localhost:${port}!`);
 });
