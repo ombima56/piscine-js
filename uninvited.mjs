@@ -36,5 +36,5 @@ const requestListener = async (req, res) => {
 const server = http.createServer(requestListener);
 
 server.listen(port, () => {
-    console.log(`Server is listening on port ${PORT}`);
+    console.log(`Server is listening on port ${port}`);
 });
