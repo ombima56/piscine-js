@@ -14,7 +14,7 @@ const server = http.createServer(async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !isAuthorized(authHeader)) {
     res.writeHead(401, { 'Content-Type': 'application/json' });
-    res.end('Authorization Required');
+    res.end(JSON.stringify({ error: 'Authorization Required' }));
     return;
   }
 
@@ -35,9 +35,10 @@ const server = http.createServer(async (req, res) => {
 
         await fs.writeFile(filePath, JSON.stringify(guestData, null, 2));
 
-        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.writeHead(201, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify(guestData));
       } catch (error) {
+        console.error('Error writing guest data:', error);
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Invalid JSON data' }));
       }
