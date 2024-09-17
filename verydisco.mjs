@@ -7,15 +7,16 @@ const veryDiscoWord = (word) => {
 
 const veryDisco = (input) => {
     const words = input.split(' ');
-    return veryDiscoWord(words[0]);
+    const discoWords = words.map(veryDiscoWord);  
+    return discoWords.join(' ');
 };
 
-const args = process.argv.slice(2);
-if (args.length === 0) {
+const args = process.argv[2];
+if (!args) {
     console.error('Please provide a string as an argument.');
     process.exit(1);
 }
 
-const inputString = args.join(' ');
+const inputString = args;
 const result = veryDisco(inputString);
-console.log(result);
+console.log(result); 
