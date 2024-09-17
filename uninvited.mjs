@@ -11,14 +11,14 @@ const server = createServer((request, response) => {
         request.on('data', chunk => body += chunk);
         request.on('end', () => {
             try {
-                const jsonContent = JSON.parse(body);
+                const jsonContent = body;
                 writeFile(`guests/${guestName}.json`, JSON.stringify(jsonContent), (err) => {
                     if (err) {
                         console.error('Error writing file:', err);
                         response.statusCode = 500;
                         response.end(JSON.stringify({ error: "server failed" }));
                     } else {
-                        response.statusCode = 201;
+                        response.statusCode = 200;
                         response.end(JSON.stringify(jsonContent));
                     }
                 });
