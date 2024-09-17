@@ -1,15 +1,15 @@
 const veryDiscoWord = (word) => {
-    const midIndex = Math.ceil(word.length / 2); 
-        const firstHalf = word.slice(0, midIndex);
+    const midIndex = Math.ceil(word.length / 2);
+    const firstHalf = word.slice(0, midIndex);
     const secondHalf = word.slice(midIndex);
-    return firstHalf + secondHalf;
+    return secondHalf + firstHalf;
 };
 
 const veryDisco = (input) => {
     const words = input.split(' ');
     const discoWords = words.map(veryDiscoWord);
     return discoWords.join(' ');
-}
+};
 
 const args = process.argv.slice(2);
 if (args.length === 0) {
