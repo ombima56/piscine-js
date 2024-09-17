@@ -4,7 +4,7 @@ import { resolve } from 'path';
 const countDirectoryEntries = async (directoryPath) => {
     try {
         const entries = await fs.readdir(directoryPath);
-        console.log(`Number of entries in ${directoryPath}: ${entries.length}`);
+        console.log(entries.length);
     } catch (error) {
         console.error('Error reading the directory:', error);
     }
