@@ -1,9 +1,9 @@
 import { readFile, writeFile } from 'fs/promises';
 import { join } from 'path';
 
-async function filterVIPGuests() {
+async function filterVIPGuests(directory) {
     try {
-        const filePath = join(process.cwd(), 'guests.json');
+        const filePath = join(directory, 'guests.json');
 
         const data = await readFile(filePath, 'utf-8');
         const guests = JSON.parse(data);
@@ -17,7 +17,7 @@ async function filterVIPGuests() {
 
         const formattedGuests = vipGuests.map((guest, index) => `${index + 1}. ${guest.lastname} ${guest.firstname}`);
 
-        const vipFilePath = join(process.cwd(), 'vip.txt');
+        const vipFilePath = join(directory, 'vip.txt');
         await writeFile(vipFilePath, formattedGuests.join('\n'), 'utf-8');
 
         console.log('VIP list has been successfully created in vip.txt');
@@ -26,4 +26,4 @@ async function filterVIPGuests() {
     }
 }
 
-filterVIPGuests();
+filterVIPGuests(process.cwd());
