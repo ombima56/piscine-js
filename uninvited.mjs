@@ -18,7 +18,7 @@ const server = createServer((request, response) => {
                         response.statusCode = 500;
                         response.end(JSON.stringify({ error: "server failed" }));
                     } else {
-                        response.statusCode = 200;
+                        response.statusCode = 201;
                         response.end(JSON.stringify(jsonContent));
                     }
                 });
