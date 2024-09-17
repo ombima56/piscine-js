@@ -1,61 +1,60 @@
-import { writeFile } from 'fs/promises';
-import { readFile } from 'fs/promises';
-import { readdir } from 'fs/promises';
-import { argv } from 'process';
-import { join } from 'path';
+import { readdir } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { writeFile } from 'node:fs/promises';
 
-const main = async () => {
-    let filePath = argv[2];
-    let files;
-    let store = [];
-    let list = "";
 
-    try {
-        files = await readdir(filePath);
+async function getvip() {
+try {
+    let path = '';
+    if (process.argv.length===3){
+        path =  resolve(process.argv[2])
+        
+    }else{
+        path=cwd();
+    } 
+ 
+  const files = await readdir(path);
+let result =[]
+    for(let file in files){
+        let obj= getjson(resolve(process.argv[2]+"/"+files[file]));
+        if (obj.answer==='yes')result.push(getname(files[file]  ));
+    }
+    result.sort()
+    let text = ''
+    for(let i=0;i<result.length;i++){
+        let num=i+1;
+        if (result[result.length-1]===result[i]){
+        text+=(`${num}. ${result[i]}`);
 
-        if (files.length === 0) {
-            await writeFile(join(filePath, 'vip.txt'), '', 'utf8');
-        } else {
-            for (let i = 0; i < files.length; i++) {
-                try {
-                    let content = await readFile(join(filePath, files[i]), 'utf8');
-                    let obj = JSON.parse(content);
+        }else{
 
-                    if (obj.answer && obj.answer.toLowerCase() === 'yes') {
-                        store.push(files[i]);
-                    }
-                } catch (fileError) {
-                    console.error(`Error reading or parsing file ${files[i]}: ${fileError.message}`);
-                }
-            }
-
-            let result = split(store);
-            result.sort();
-
-            // Create formatted list
-            for (let i = 0; i < result.length; i++) {
-                list += `${i + 1}. ${result[i]}`;
-                if (i < result.length - 1) {
-                    list += "\n";
-                }
-            }
-
-            await writeFile(join(filePath, 'vip.txt'), list, 'utf8');
+            text+=(`${num}. ${result[i]}`)+'\n';
         }
+    }
+    // text += '\n'
+    const data = new Uint8Array(Buffer.from(text));
+     await writeFile('vip.txt', data);
+    // console.log(result);
+} catch (err) {
+  console.error(err);
+}}
+getvip();
+
+
+function getname(filename) {
+    filename= filename.split('.')[0];
+    let first=filename.split('_')[0];
+    let last=filename.split('_')[1];
+    return last+' '+first;
+}
+
+import { readFileSync } from 'node:fs';
+
+function getjson(filename) {
+    try {
+      return JSON.parse(readFileSync(filename, 'utf8'));
     } catch (err) {
-        console.error('Error during processing:', err.message);
+      console.error(`Error reading JSON file: ${filename}`);
+      return null;
     }
-}
-
-const split = (arr) => {
-    let result = [];
-    for (let file of arr) {
-        let store = file.split('_');
-        store[1] = store[1].slice(0, -5); 
-        let conc = `${store[1]} ${store[0]}`;
-        result.push(conc);
-    }
-    return result;
-}
-
-main();
+  }
