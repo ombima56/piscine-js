@@ -12,7 +12,7 @@ const server = createServer((request, response) => {
         request.on('end', () => {
             try {
                 const jsonContent = body;
-                writeFile(`guests/${guestName}.json`, JSON.stringify(jsonContent), (err) => {
+                writeFile(`guests/${guestName}.json`, JSON.stringify(jsonContent,null,2), (err) => {
                     if (err) {
                         console.error('Error writing file:', err);
                         response.statusCode = 500;
