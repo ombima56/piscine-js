@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const PORT = 5000;
 const AUTHORIZED_USERS = ['Caleb_Squires', 'Tyrique_Dalton', 'Rahima_Young'];
 const PASSWORD = 'abracadabra';
+const GUESTS_DIR = 'guests';
 
 const server = http.createServer(async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -26,13 +27,16 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         const guestData = JSON.parse(body);
-        const guestName = req.url.slice(1); // Remove leading '/'
-        const filePath = join(__dirname, `${guestName}.json`);
+        const guestName = req.url.slice(1);
+        const guestsPath = join(__dirname, GUESTS_DIR);
+        const filePath = join(guestsPath, `${guestName}.json`);
+
+        await fs.mkdir(guestsPath, { recursive: true });
 
         await fs.writeFile(filePath, JSON.stringify(guestData, null, 2));
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(guestData, null, 2));
+        res.end(JSON.stringify(guestData));
       } catch (error) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Invalid JSON data' }));
