@@ -7,8 +7,7 @@ const veryDiscoWord = (word) => {
 
 const veryDisco = (input) => {
     const words = input.split(' ');
-    const discoWords = words.map(veryDiscoWord);
-    return discoWords.join(' ');
+    return veryDiscoWord(words[0]);
 };
 
 const args = process.argv.slice(2);
